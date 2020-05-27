@@ -13,7 +13,7 @@ let strings = new LocalizedStrings({ "en-US": {} });
 
 const getTranslation = (key, ObjectValueResolver) => {
     if (ObjectValueResolver) {
-        return strings.formatString(key, ObjectValueResolver)
+        return strings.formatString(strings[key], ObjectValueResolver)
     }
     return strings[key];
 }
@@ -23,9 +23,11 @@ const initialState = {
     translate: getTranslation
 }
 
-const I18nContext = React.createContext(initialState);
+const LocalizeContext = React.createContext(initialState);
 
-const I18nContextProvider = ({ children, value }) => {
+const LocalizeContextProvider = ({ children, value, languageCode }) => {
+
+    // @TODO add support for rtl
     let isRTL = false;
 
     if (value && typeof value == 'object' && Object.keys(value).length) {
@@ -33,26 +35,24 @@ const I18nContextProvider = ({ children, value }) => {
     }
 
     const reducer = (state, action) => {
-        switch (action.type) {
-            case 'setlanguage':
-                strings.setLanguage(action.payload);
-                return {
-                    langCode: action.payload,
-                    translate: getTranslation
-                }
-
-            default:
-                return { ...initialState };
+        strings.setLanguage(action);
+        return {
+            langCode: action,
+            translate: getTranslation
         }
     }
 
     const [state, dispatch] = React.useReducer(reducer, initialState);
 
+    if (languageCode) {
+        dispatch(languageCode);
+    }
+
     return (
-        <I18nContext.Provider value={{ ...state, isRTL, dispatch }} >
+        <LocalizeContext.Provider value={{ ...state, isRTL, changeLanguage: dispatch }} >
             {children}
-        </I18nContext.Provider>
+        </LocalizeContext.Provider>
     )
 }
 
-export { I18nContext, I18nContextProvider, SetContent };
+export { LocalizeContext, LocalizeContextProvider, SetContent };
