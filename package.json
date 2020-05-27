@@ -1,5 +1,5 @@
 {
-    "name": "react-locale",
+    "name": "react-locale-language",
     "version": "1.0.0",
     "description": "provides localization support for react-projects",
     "main": "src/index.js",

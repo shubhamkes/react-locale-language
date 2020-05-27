@@ -7,19 +7,19 @@ Highly customizable small size library for providing support for language locali
 ## Getting Started
 
 ```bash
-$ yarn add react-locale
+$ yarn add react-locale-language
 ```
 
 *or via
 
 ```bash
-$ npm i react-locale
+$ npm i react-locale-language
 ```
 
 ### Example of usage:
 
 ```js
-import { LocalizeContextProvider, LocalizeContext, SetContent } from 'react-locale';
+import { LocalizeContextProvider, LocalizeContext, SetContent } from 'react-locale-language';
 
 const RootApp = () => {
     const languageContent = {
