@@ -1,0 +1,17 @@
+{
+    "name": "react-locale",
+    "version": "1.0.0",
+    "description": "provides localization support for react-projects",
+    "main": "src/index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Shubham Kesarwani <shubham.kesarwani89@gmail.com>",
+    "license": "MIT",
+    "peerDependencies": {
+        "react": "*"
+    },
+    "dependencies": {
+        "react-localization": "^1.0.15"
+    }
+}
