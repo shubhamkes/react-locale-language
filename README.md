@@ -19,7 +19,7 @@ $ npm i react-locale-language
 ### Example of usage:
 
 ```js
-import { LocalizeContextProvider, LocalizeContext, SetContent } from 'react-locale-language';
+import { LocalizeContextProvider, LocalizeContext } from 'react-locale-language';
 
 const RootApp = () => {
     const languageContent = {
@@ -30,7 +30,7 @@ const RootApp = () => {
     };
 
     return (
-        // value && languageCode is optional here, SetContent can also be used to update the content later and changeLanguage can be used to update the language setting 
+        // value && languageCode is optional here, setContent can also be used to update the content later and changeLanguage can be used to update the language setting 
         <LocalizeContextProvider value={languageContent} languageCode="en-US" >
             <ThemeContextProvider value={uiTheme}>
                 <Landing />
@@ -40,7 +40,7 @@ const RootApp = () => {
 }
 
 const Landing = () =>  {
-    const { translate,  changeLanguage } = useContext(LocalizeContext);
+    const { translate,  changeLanguage, setContent } = useContext(LocalizeContext);
 
     useEffect(() => {
         // using setTimeout just to mimic the pattern of fetching data for different languages from the server
@@ -48,7 +48,7 @@ const Landing = () =>  {
         // its not necessary to load the translated texts in all the available languages at once
 
         setTimeout(() => {
-            SetContent({
+            setContent({
                 'hi-IN': {
                     hello: "हैलो ${name}, आज आप कैसा महसूस कर रहे हैं?",
                     welcome: "स्वागत है",

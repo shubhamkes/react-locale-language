@@ -1,58 +1,66 @@
-import React from 'react';
+import React, { useState } from 'react';
 import LocalizedStrings from 'react-localization';
+
 import { UpdateContent } from './langauges';
 
+const LocalizeContext = React.createContext({});
 
-const contents = {};
-function SetContent(content, override) {
-    content = UpdateContent(content, override);
-    strings.setContent(content);
-}
+const LocalizeContextProvider = ({ children, value = { "en-US": {} }, languageCode }) => {
+    let i = 0;
+    // const strings = new LocalizedStrings(value);
+    let [strings, setStrings] = useState(new LocalizedStrings(value));
 
-let strings = new LocalizedStrings({ "en-US": {} });
 
-const getTranslation = (key, ObjectValueResolver) => {
-    if (ObjectValueResolver) {
-        return strings.formatString(strings[key], ObjectValueResolver)
+    const initialState = {
+        langCode: "en-US",
+        translate: getTranslation,
+        setContent
     }
-    return strings[key];
-}
 
-const initialState = {
-    langCode: 'en',
-    translate: getTranslation
-}
+    function setContent(content, override) {
+        content = UpdateContent(content, override);
+        strings.setContent(content);
+        setStrings(strings);
+    }
 
-const LocalizeContext = React.createContext(initialState);
-
-const LocalizeContextProvider = ({ children, value, languageCode }) => {
+    function getTranslation(key, ObjectValueResolver) {
+        if (ObjectValueResolver) {
+            return strings.formatString(strings[key], ObjectValueResolver)
+        }
+        return strings[key];
+    }
 
     // @TODO add support for rtl
     let isRTL = false;
 
-    if (value && typeof value == 'object' && Object.keys(value).length) {
-        SetContent(value, true);
-    }
-
     const reducer = (state, action) => {
+        if (!action) {
+            return state;
+        }
+
         strings.setLanguage(action);
+        initialState.langCode = action;
         return {
             langCode: action,
-            translate: getTranslation
+            translate: getTranslation,
+            setContent
         }
     }
 
     const [state, dispatch] = React.useReducer(reducer, initialState);
+    React.useEffect(() => {
+        if (languageCode && initialState.langCode != languageCode) {
+            initialState.langCode = languageCode;
+            dispatch(languageCode);
+        }
+    }, []);
 
-    if (languageCode) {
-        dispatch(languageCode);
-    }
 
     return (
-        <LocalizeContext.Provider value={{ ...state, isRTL, changeLanguage: dispatch }} >
+        <LocalizeContext.Provider value={{ ...initialState, ...state, strings, isRTL, changeLanguage: dispatch }} >
             {children}
         </LocalizeContext.Provider>
     )
 }
 
-export { LocalizeContext, LocalizeContextProvider, SetContent };
+export { LocalizeContext, LocalizeContextProvider };
