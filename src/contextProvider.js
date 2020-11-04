@@ -5,7 +5,10 @@ import { UpdateContent } from './langauges';
 
 const LocalizeContext = React.createContext({});
 
+let Translate = () => { };
+
 const LocalizeContextProvider = ({ children, value = { "en-US": {} }, languageCode }) => {
+
     let i = 0;
     // const strings = new LocalizedStrings(value);
     let [strings, setStrings] = useState(new LocalizedStrings(value));
@@ -48,6 +51,9 @@ const LocalizeContextProvider = ({ children, value = { "en-US": {} }, languageCo
     }
 
     const [state, dispatch] = React.useReducer(reducer, initialState);
+
+    Translate = getTranslation;
+
     React.useEffect(() => {
         if (languageCode && initialState.langCode != languageCode) {
             initialState.langCode = languageCode;
@@ -63,4 +69,4 @@ const LocalizeContextProvider = ({ children, value = { "en-US": {} }, languageCo
     )
 }
 
-export { LocalizeContext, LocalizeContextProvider };
+export { LocalizeContext, LocalizeContextProvider, Translate };

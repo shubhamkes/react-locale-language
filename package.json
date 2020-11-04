@@ -1,6 +1,6 @@
 {
     "name": "react-locale-language",
-    "version": "1.0.3",
+    "version": "1.0.7",
     "description": "provides localization support for react-projects",
     "main": "dist/index.js",
     "scripts": {
@@ -16,6 +16,14 @@
     "dependencies": {
         "react-localization": "^1.0.15"
     },
+    "keywords": [
+        "react-locale-language",
+        "react-locale",
+        "react-native-locale",
+        "rn-locale",
+        "rn-locale-context",
+        "rn locale language context"
+    ],
     "devDependencies": {
         "@babel/core": "^7.10.1",
         "babel-loader": "^8.1.0",

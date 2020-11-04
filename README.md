@@ -24,13 +24,13 @@ import { LocalizeContextProvider, LocalizeContext } from 'react-locale-language'
 const RootApp = () => {
     const languageContent = {
         "en-US": {
-            hello: "Hello ${name}, How are you feeling today?", 
+            hello: "Hello ${name}, How are you feeling today?",
             welcome: "Welcome aboard",
         }
     };
 
     return (
-        // value && languageCode is optional here, setContent can also be used to update the content later and changeLanguage can be used to update the language setting 
+        // value && languageCode is optional here, setContent can also be used to update the content later and changeLanguage can be used to update the language setting
         <LocalizeContextProvider value={languageContent} languageCode="en-US" >
             <ThemeContextProvider value={uiTheme}>
                 <Landing />
@@ -80,7 +80,7 @@ const Landing = () =>  {
 
 ## Special Note for React-Native Users
 
-Since this library doesn't need to be linked in order to get the device's locale 
+Since this library doesn't need to be linked in order to get the device's locale
 
 below method can be used to fetch the langauge set on the device
 
@@ -100,4 +100,13 @@ function getLocale() {
 }
 
 changeLanguage(getLocale());
+```
+
+## Translate outside react component
+
+```js
+// this works in any utils function which is outside of context tree or non component method
+import { Tranlate } from 'react-native';
+
+const translatedMessage= Translate('your_key');
 ```
